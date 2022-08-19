@@ -14,12 +14,15 @@ resource "aws_eip" "main" {
 # NAT Gateway
 resource "aws_nat_gateway" "main" {
   count = var.enable_nat_gateway == true ? local.nat_gateway_count : 0
-  allocation_id = aws_eip.main.id
+  allocation_id = aws_eip.main.id[count.index]
   subnet_id     = aws_subnet.public[0].id
 
   tags = {
     Name = "${var.project}-ngw"
   }
+  depends_on = [
+    aws_eip.main
+  ]
 }
 
 # Add route to route table
@@ -28,4 +31,7 @@ resource "aws_route" "main" {
   route_table_id         = aws_vpc.this.default_route_table_id
   nat_gateway_id         = aws_nat_gateway.main.id
   destination_cidr_block = "0.0.0.0/0"
+  depends_on = [
+    aws_nat_gateway.main
+  ]
 }
