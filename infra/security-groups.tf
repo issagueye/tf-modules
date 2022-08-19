@@ -25,26 +25,20 @@ locals {
 
 resource "aws_security_group_rule" "sg_public" {
   security_group_id = aws_security_group.public-sg.id
-  dynamic "ingress" {
-    for_each = local.public_inbound_ports
-    content {
-        from_port = ingress.value
-        to_port = ingress.value
-        protocol = "tcp"
-        cidr_block = ["0.0.0.0/0"]
-    }
-  }
+  for_each = local.public_inbound_ports
+  type = "ingress"
+  from_port = each.value
+  to_port = each.value
+  protocol = "tcp"
+  cidr_blocks = [ "0.0.0.0/0" ]
 }
 
 resource "aws_security_group_rule" "sg_private" {
   security_group_id = aws_security_group.private-sg.id
-  dynamic "ingress" {
-    for_each = local.private_inbound_ports
-    content {
-        from_port = ingress.value
-        to_port = ingress.value
-        protocol = "tcp"
-        source_securtity_group_id = aws_security_group.public-sg.id
-    }
-  }
+  for_each = local.private_inbound_ports
+  type = "ingress"
+  from_port = each.value
+  to_port = each.value
+  protocol = "tcp"
+  source_security_group_id = aws_security_group.public-sg.id
 }
