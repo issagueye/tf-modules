@@ -65,4 +65,7 @@ resource "aws_route" "main" {
   depends_on = [
     aws_nat_gateway.main
   ]
+  lifecycle {
+    create_before_destroy = false
+  }
 }
