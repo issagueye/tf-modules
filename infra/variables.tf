@@ -39,5 +39,5 @@ variable "one_nat_gateway_per_az" {
 variable "azs" {
   description = "A list of availability zones names or ids in the region"
   type        = list(string)
-  default     = ["eu-east-1", "eu-east-2", "eu-east-3"]
+  default     = ["us-east-1a", "us-east-1b", "us-east-1c"]
 }
