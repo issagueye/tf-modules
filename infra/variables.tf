@@ -41,3 +41,13 @@ variable "azs" {
   type        = list(string)
   default     = ["us-east-1a", "us-east-1b", "us-east-1c"]
 }
+
+variable "public_inbound_ports" {
+  type = list(string)
+  default = [ "80", "443" ]
+}
+
+variable "private_inbound_ports" {
+  type = list(string)
+  default = [ "1433" ]
+}
