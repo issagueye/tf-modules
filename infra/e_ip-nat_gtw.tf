@@ -47,7 +47,7 @@ resource "aws_route_table_association" "nat_gtw_access" {
   count = var.enable_nat_gateway == true ? local.nat_gateway_count : 0
 
   subnet_id      = aws_subnet.private[count.index].id
-  route_table_id = aws_route_table.private-rt.id
+  route_table_id = aws_route_table.private-rt[count.index].id
   lifecycle {
     create_before_destroy = false
   }
