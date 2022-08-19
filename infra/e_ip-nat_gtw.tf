@@ -59,7 +59,7 @@ resource "aws_route_table_association" "nat_gtw_access" {
 # Add route to route table
 resource "aws_route" "main" {
   count = var.enable_nat_gateway == true ? local.nat_gateway_count : 0
-  route_table_id         = aws_vpc.my_vpc.main_route_table_id
+  route_table_id         = aws_vpc.my_vpc.main_route_table_id[count.index]
   nat_gateway_id         = aws_nat_gateway.main[count.index].id
   destination_cidr_block = "0.0.0.0/0"
   depends_on = [
