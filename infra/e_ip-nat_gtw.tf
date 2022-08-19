@@ -14,7 +14,7 @@ resource "aws_eip" "main" {
 # NAT Gateway
 resource "aws_nat_gateway" "main" {
   count = var.enable_nat_gateway == true ? local.nat_gateway_count : 0
-  allocation_id = aws_eip.main.id[count.index]
+  allocation_id = aws_eip.main[count.index].id
   subnet_id     = aws_subnet.public[0].id
 
   tags = {
