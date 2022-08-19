@@ -43,11 +43,11 @@ variable "azs" {
 }
 
 variable "public_inbound_ports" {
-  type = list(string)
+  type = map(string)
   default = [ "80", "443" ]
 }
 
 variable "private_inbound_ports" {
-  type = list(string)
+  type = map(string)
   default = [ "1433" ]
 }
