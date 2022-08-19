@@ -1,6 +1,6 @@
 variable "project" {
   type = string
-  default = "Prod"
+  default = ""
 }
 
 variable "vpc_cidr" {
@@ -17,4 +17,27 @@ variable "subnet_cidr_bits" {
 variable "availability_zones_count" {
   type    = number
   default = 3
+}
+
+variable "enable_nat_gateway" {
+  type = bool
+  default = false
+}
+
+variable "single_nat_gateway" {
+  description = "Should be true if you want to provision a single shared NAT Gateway across all of your private networks"
+  type        = bool
+  default     = false
+}
+
+variable "one_nat_gateway_per_az" {
+  description = "Should be true if you want only one NAT Gateway per availability zone. Requires `var.azs` to be set, and the number of `public_subnets` created to be greater than or equal to the number of availability zones specified in `var.azs`."
+  type        = bool
+  default     = false
+}
+
+variable "azs" {
+  description = "A list of availability zones names or ids in the region"
+  type        = list(string)
+  default     = ["eu-east-1", "eu-east-2", "eu-east-3"]
 }

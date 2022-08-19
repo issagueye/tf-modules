@@ -1,11 +1,15 @@
 
+locals {
+  availability_zones_count = length(var.azs)
+}
 # Public Subnets
 resource "aws_subnet" "public" {
-  count = var.availability_zones_count
+  count = local.availability_zones_count
 
   vpc_id            = aws_vpc.my_vpc.id
   cidr_block        = cidrsubnet(var.vpc_cidr, var.subnet_cidr_bits, count.index)
-  availability_zone = data.aws_availability_zones.available.names[count.index]
+ //availability_zone = data.aws_availability_zones.available.names[count.index]
+  availability_zone = var.azs[count.index]
 
   tags = {
     Name = "${var.project}-public-subnet"
@@ -18,11 +22,12 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_subnet" "private" {
-  count = var.availability_zones_count
+  count = local.availability_zones_count
 
   vpc_id            = aws_vpc.my_vpc.id
-  cidr_block        = cidrsubnet(var.vpc_cidr, var.subnet_cidr_bits, count.index + var.availability_zones_count)
-  availability_zone = data.aws_availability_zones.available.names[count.index]
+  cidr_block        = cidrsubnet(var.vpc_cidr, var.subnet_cidr_bits, count.index + local.availability_zones_count)
+  availability_zone = var.azs[count.index]
+ // availability_zone = data.aws_availability_zones.available.names[count.index]
 
   tags = {
     Name = "${var.project}-private-subnet"
