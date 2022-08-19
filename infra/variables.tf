@@ -44,10 +44,15 @@ variable "azs" {
 
 variable "public_inbound_ports" {
   type = map(string)
-  default = [ "80", "443" ]
+  default = {
+    "HTTP" = "80"
+    "HTTPS"= "443"
+  }
 }
 
 variable "private_inbound_ports" {
   type = map(string)
-  default = [ "1433" ]
+  default = {
+    "DB" = "1433"
+  }
 }
